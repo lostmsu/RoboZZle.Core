@@ -18,7 +18,7 @@ public sealed class ProgramState {
     /// </summary>
     public bool StackOverflow { get; private set; }
     /// <summary>
-    /// Gets instuctions pointer in the stack
+    /// Gets instructions pointer in the stack
     /// </summary>
     public IEnumerable<InstructionPointer> Stack => this.stack.Select(ip => ip.Clone());
 

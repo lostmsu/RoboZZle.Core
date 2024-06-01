@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
 
         <!-- package metadata -->
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
         <Authors>Victor Nova</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageLicenseFile Condition="$(PackageLicenseExpression) == ''">LICENSE</PackageLicenseFile>

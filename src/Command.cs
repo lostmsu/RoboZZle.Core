@@ -9,7 +9,10 @@ public sealed class Command: IStructuralEquatable {
     public const string EMPTY_STRING = "__";
 
     public Color? Condition { get; init; }
-    public required Action Action { get; init; }
+    public Action? Action { get; init; }
+
+    public Command With(Action? action) => new() { Action = action, Condition = this.Condition };
+    public Command With(Color? condition) => new() { Action = this.Action, Condition = condition };
 
     /// <summary>
     /// Clones command
@@ -55,12 +58,12 @@ public sealed class Command: IStructuralEquatable {
 
     static Color? ParseCondition(char condition) => Conditions[condition];
 
+    char ActionChar() => this.Action?.ToChar() ?? '·';
+
     /// <summary>
     /// Converts command to its string representation.
     /// </summary>
-    public override string ToString() {
-        return "" + this.Condition.ToChar() + this.Action.ToChar();
-    }
+    public override string ToString() => "" + this.Condition.ToChar() + this.ActionChar();
 
     public bool Equals(object? other, IEqualityComparer comparer) {
         if (comparer == null)
@@ -69,9 +72,9 @@ public sealed class Command: IStructuralEquatable {
         if (other == null && this.Action == null)
             return true;
 
-        var otherCommand = other as Command;
-        if (otherCommand == null)
+        if (other is not Command otherCommand)
             return false;
+
         return comparer.Equals(otherCommand.Action, this.Action)
             && comparer.Equals(otherCommand.Condition, this.Condition);
     }
@@ -81,6 +84,6 @@ public sealed class Command: IStructuralEquatable {
             throw new ArgumentNullException(nameof(comparer));
 
         return comparer.GetHashCode(this.Condition.ToChar()) * 117 +
-               comparer.GetHashCode(this.Action.ToChar());
+               comparer.GetHashCode(this.ActionChar());
     }
 }
